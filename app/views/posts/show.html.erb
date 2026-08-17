@@ -1,0 +1,49 @@
+<% content_for :title, "Log: #{@post.title} - Rjort" %>
+
+<% content_for :header_left do %>
+  <span>Log: <%= @post.title %></span>
+<% end %>
+
+<% content_for :header_right do %>
+  <%= link_to "[<-]", root_path, data: { terminal_nav_target: "back" }, class: "hover:bg-gray-300 hover:text-black px-1", title: "Voltar para Logs (ou pressione Backspace)" %>
+<% end %>
+
+<div class="flex flex-col md:flex-row w-full flex-grow gap-4 overflow-hidden min-h-0">
+  
+  <!-- Coluna Esquerda: index: (Sumário de títulos) -->
+  <div class="w-full md:w-1/3 border border-gray-500 flex flex-col bg-black overflow-hidden shrink-0 max-h-48 md:max-h-none">
+    <div class="bg-gray-300 text-black px-2 font-bold flex justify-between shrink-0">
+      <span>index:</span>
+      <span>[<%= @post.table_of_contents.count %>]</span>
+    </div>
+
+    <div class="overflow-y-auto p-2 space-y-1 text-sm flex-grow">
+      <% if @post.table_of_contents.any? %>
+        <% @post.table_of_contents.each do |item| %>
+          <a href="#<%= item[:id] %>" data-terminal-nav-target="item" data-action="mouseenter->terminal-nav#select" class="flex items-center hover:bg-gray-300 hover:text-black cursor-pointer px-1 group truncate transition-colors">
+            <span class="mr-2 text-gray-500 group-hover:text-black nav-bullet">-</span>
+            <span class="truncate"><%= item[:title] %></span>
+          </a>
+        <% end %>
+      <% else %>
+        <div class="text-gray-600 italic p-1">[SEM TÓPICOS]</div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Coluna Direita: Log: <titulo> (Conteúdo do Markdown com rolagem própria) -->
+  <div class="w-full md:w-2/3 border border-gray-500 flex flex-col bg-black flex-grow overflow-hidden min-h-0">
+    <div class="bg-gray-300 text-black px-2 font-bold flex justify-between shrink-0">
+      <span class="truncate">Log: <%= @post.title %></span>
+      <span>[<%= @post.formatted_date %>]</span>
+    </div>
+
+    <!-- Área de conteúdo com rolagem isolada -->
+    <div class="overflow-y-auto p-4 flex-grow min-h-0">
+      <div class="markdown-body">
+        <%= raw @post.content_html %>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,25 @@
+<% content_for :title, "Rjort - Logs" %>
+
+<div class="w-full border border-gray-500 flex flex-col bg-black flex-grow overflow-hidden min-h-0">
+  <div class="bg-gray-300 text-black px-2 font-bold flex justify-between shrink-0">
+    <span>Logs:</span>
+    <span>[<%= @posts_by_year.values.flatten.count %>]</span>
+  </div>
+
+  <div class="p-4 space-y-6 overflow-y-auto flex-grow min-h-0">
+    <% @posts_by_year.each do |year, posts| %>
+      <div class="space-y-2">
+        <div class="font-bold text-gray-200"><%= year %>:</div>
+        <div class="space-y-1 pl-2">
+          <% posts.each do |post| %>
+            <%= link_to post_path(post.slug), data: { terminal_nav_target: "item", action: "mouseenter->terminal-nav#select" }, class: "flex items-center hover:bg-gray-300 hover:text-black cursor-pointer px-1 group font-mono text-sm sm:text-base transition-colors" do %>
+              <span class="mr-2 text-gray-500 group-hover:text-black nav-bullet">-</span>
+              <span class="mr-2 text-gray-400 group-hover:text-black nav-date"><%= post.formatted_date %>:</span>
+              <span class="truncate"><%= post.title %></span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

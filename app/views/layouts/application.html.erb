@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-black overflow-hidden">
+  <head>
+    <title><%= content_for(:title) || "Rjort" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-black text-gray-300 font-mono h-screen flex flex-col p-4 antialiased selection:bg-gray-300 selection:text-black overflow-hidden" data-controller="terminal-nav" data-terminal-nav-index-url-value="<%= root_path %>">
+    
+    <!-- Header retro -->
+    <header class="flex justify-between items-center mb-4 border border-gray-500 p-2 bg-gray-900 shrink-0">
+      <div class="font-bold">
+        <% if content_for?(:header_left) %>
+          <%= yield :header_left %>
+        <% else %>
+          <%= link_to "[Rjort]", root_path, class: "hover:bg-gray-300 hover:text-black px-1" %>
+        <% end %>
+      </div>
+      <div class="font-bold">
+        <%= yield :header_right %>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow flex flex-col overflow-hidden min-h-0">
+      <%= yield %>
+    </main>
+
+    <!-- Footer retro -->
+    <footer class="mt-4 border border-gray-500 p-2 bg-gray-900 text-center font-bold text-gray-400 text-xs sm:text-sm shrink-0">
+      © <%= Time.current.year %> Rjort. Todos os direitos reservados.
+    </footer>
+
+  </body>
+</html>
