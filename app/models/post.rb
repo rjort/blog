@@ -62,7 +62,7 @@ class Post
     end
 
     def from_file(file_path)
-      loader = FrontMatterParser::Loader::Yaml.new(allowlist_classes: [Date, Time])
+      loader = FrontMatterParser::Loader::Yaml.new(allowlist_classes: [ Date, Time ])
       parsed = FrontMatterParser::Parser.new(:md, loader: loader).call(File.read(file_path))
       front_matter = parsed.front_matter
       filename = File.basename(file_path, ".md")
