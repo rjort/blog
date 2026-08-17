@@ -39,3 +39,6 @@
 
 # Build estático para exportação
 /out
+
+# Ignorar o arquivo local do ASDF para evitar busca de versões no Cloudflare
+.tool-versions
