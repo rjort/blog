@@ -1,5 +1,5 @@
 ---
-title: "Script em Ruby para testes reais na empresa"
+title: "Ruby: script com threads e GraphQL"
 date: 2026-08-17
 published: true
 summary: "Uma utilização real na empresa para o uso de script utilizando técnicas de threads."
