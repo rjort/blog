@@ -1,7 +1,7 @@
 ---
 title: "aprendendo com IA"
 date: 2026-03-01
-published: true
+published: false
 summary: "Como utilizar agentes de inteligência artificial para potencializar seus estudos de desenvolvimento."
 ---
 

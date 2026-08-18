@@ -1,7 +1,7 @@
 ---
 title: "threads em ruby"
 date: 2026-05-21
-published: true
+published: false
 summary: "Entendendo o modelo de concorrência, GIL e threads no Ruby moderno."
 ---
 

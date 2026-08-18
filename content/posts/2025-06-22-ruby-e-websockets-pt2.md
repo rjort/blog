@@ -1,7 +1,7 @@
 ---
 title: "ruby e websockets pt2"
 date: 2025-06-22
-published: true
+published: false
 summary: "Aprofundando no ActionCable e transmissões em tempo real."
 ---
 

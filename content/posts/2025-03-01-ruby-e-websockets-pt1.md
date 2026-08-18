@@ -1,7 +1,7 @@
 ---
 title: "ruby e websockets pt1"
 date: 2025-03-01
-published: true
+published: false
 summary: "Introdução ao protocolo WebSocket e comunicação em tempo real no ecossistema Ruby."
 ---
 

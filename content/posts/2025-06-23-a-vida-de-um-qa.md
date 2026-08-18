@@ -1,7 +1,7 @@
 ---
 title: "A vida de um QA"
 date: 2025-06-23
-published: true
+published: false
 summary: "Reflexões sobre testes, qualidade de software e automação moderna."
 ---
 
