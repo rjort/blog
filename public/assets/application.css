@@ -70,26 +70,69 @@
 
 .markdown-body code {
   background-color: #111827;
-  color: #e5e7eb;
-  padding: 0.1rem 0.3rem;
+  color: #fbbf24;
+  padding: 0.15rem 0.35rem;
   border: 1px solid #4b5563;
   font-size: 0.9em;
 }
 
+/* Blocos de Código Retro Terminal (```) */
 .markdown-body pre {
-  background-color: #030712 !important;
-  border: 1px solid #6b7280;
-  padding: 0.75rem;
+  background-color: #000000 !important;
+  border: 1px solid #4b5563 !important;
+  padding: 0.85rem !important;
   overflow-x: auto;
-  margin-top: 0.75rem;
+  margin-top: 0.85rem;
   margin-bottom: 1.25rem;
+  border-radius: 0px !important;
 }
 
 .markdown-body pre code {
   background-color: transparent !important;
   border: none !important;
   padding: 0 !important;
-  color: inherit;
+  color: #d1d5db !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Destaque de Sintaxe Retro (Palavras-chave em Âmbar, Strings em Verde Matriz, Funções em Ciano) */
+.markdown-body pre code span[style*="color:#b48ead"],
+.markdown-body pre code span[style*="color:#B48EAD"] {
+  color: #fbbf24 !important; /* Keywords: def, end, do, if -> Amber Yellow */
+  font-weight: bold;
+}
+
+.markdown-body pre code span[style*="color:#a3be8c"],
+.markdown-body pre code span[style*="color:#A3BE8C"] {
+  color: #4ade80 !important; /* Strings: "application/json" -> Phosphor Matrix Green */
+}
+
+.markdown-body pre code span[style*="color:#8fa1b3"],
+.markdown-body pre code span[style*="color:#8FA1B3"],
+.markdown-body pre code span[style*="color:#96b5b4"] {
+  color: #38bdf8 !important; /* Functions: headers, new, puts -> Bright Cyan */
+}
+
+.markdown-body pre code span[style*="color:#ebcb8b"],
+.markdown-body pre code span[style*="color:#EBCB8B"] {
+  color: #ffffff !important; /* Classes/Constants: GraphQL, HTTP, Client -> Pure White */
+  font-weight: bold;
+}
+
+.markdown-body pre code span[style*="color:#bf616a"],
+.markdown-body pre code span[style*="color:#BF616A"] {
+  color: #e5e7eb !important; /* Variables/Parameters: URL, context -> Soft Gray */
+}
+
+.markdown-body pre code span[style*="color:#d08770"] {
+  color: #f43f5e !important; /* Numbers/Symbols -> Bright Magenta/Rose */
+}
+
+.markdown-body pre code span[style*="color:#65737e"] {
+  color: #6b7280 !important; /* Comments: # ... -> Slate Gray */
+  font-style: italic;
 }
 
 .markdown-body a {
