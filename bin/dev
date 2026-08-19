@@ -7,4 +7,4 @@ system("ruby #{File.join(root_dir, 'bin', 'build')}") || exit(1)
 puts ""
 puts "💻 Iniciando servidor local de desenvolvimento HTTP em http://localhost:3000..."
 puts "Pressione Ctrl+C para encerrar."
-exec("ruby -run -e httpd #{File.join(root_dir, 'out')} -p 3000")
+exec("bundle exec ruby -run -e httpd #{File.join(root_dir, 'out')} -p 3000")

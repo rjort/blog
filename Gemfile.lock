@@ -33,6 +33,7 @@ GEM
     tailwindcss-ruby (4.3.3-x86_64-darwin)
     tailwindcss-ruby (4.3.3-x86_64-linux-gnu)
     tailwindcss-ruby (4.3.3-x86_64-linux-musl)
+    webrick (1.9.2)
 
 PLATFORMS
   aarch64-linux
@@ -51,6 +52,7 @@ DEPENDENCIES
   front_matter_parser (~> 1.0)
   nokogiri (~> 1.19)
   tailwindcss-ruby (~> 4.3)
+  webrick (~> 1.8)
 
 CHECKSUMS
   commonmarker (2.9.0-aarch64-linux) sha256=e2b4aadb9a2cfa4e206582641ce3a49465549ac1ed4c289fdd63b78d8f24579c
@@ -77,6 +79,7 @@ CHECKSUMS
   tailwindcss-ruby (4.3.3-x86_64-darwin) sha256=483011e5d3792cf5ef4afdfb04c1d95daccf42c30cdb6fe53b77520954e7b922
   tailwindcss-ruby (4.3.3-x86_64-linux-gnu) sha256=2337017ff8b02698480eae1e9637cf01faa0e4824db89d067a13c5a5ee38c9b2
   tailwindcss-ruby (4.3.3-x86_64-linux-musl) sha256=27d478c417bcf73828e5b544744c5bdfd5b5cb54f1a266fc4f185281c32efe6c
+  webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
 
 RUBY VERSION
   ruby 4.0.6

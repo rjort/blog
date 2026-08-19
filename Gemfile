@@ -9,3 +9,6 @@ gem "nokogiri", "~> 1.19"
 
 # Tailwind CSS compiler
 gem "tailwindcss-ruby", "~> 4.3"
+
+# Servidor HTTP local
+gem "webrick", "~> 1.8"
