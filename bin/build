@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+require "fileutils"
+require "erb"
+require_relative "../lib/post"
+
+root_dir = File.expand_path("..", __dir__)
+out_dir = File.join(root_dir, "out")
+templates_dir = File.join(root_dir, "templates")
+public_dir = File.join(root_dir, "public")
+
+puts "🚀 Iniciando build estático do Rjort Blog v2.0.0..."
+start_time = Time.now
+
+# Limpar e recriar diretório out/
+FileUtils.rm_rf(out_dir)
+FileUtils.mkdir_p(File.join(out_dir, "assets"))
+
+# 1. Compilar Tailwind CSS
+puts "🎨 Compilando Tailwind CSS..."
+system("bundle exec tailwindcss -i #{File.join(public_dir, 'assets', 'application.css')} -o #{File.join(out_dir, 'assets', 'tailwind.css')} --minify")
+
+# 2. Copiar scripts e imagens estáticas
+FileUtils.cp(File.join(public_dir, "assets", "terminal_nav.js"), File.join(out_dir, "assets", "terminal_nav.js"))
+FileUtils.cp(File.join(public_dir, "icon.svg"), File.join(out_dir, "icon.svg")) if File.exist?(File.join(public_dir, "icon.svg"))
+
+# Carregar templates ERB
+layout_template = ERB.new(File.read(File.join(templates_dir, "layout.html.erb")))
+index_template = ERB.new(File.read(File.join(templates_dir, "index.html.erb")))
+show_template = ERB.new(File.read(File.join(templates_dir, "show.html.erb")))
+
+# Helper para renderizar com o layout principal
+def render_page(layout_template, title, page_type, root_path, asset_prefix, post_prefix)
+  @page_title = title
+  @page_type = page_type
+  @root_path = root_path
+  @asset_prefix = asset_prefix
+  @post_prefix = post_prefix
+  content = yield
+  layout_template.result(binding)
+end
+
+# 3. Gerar out/index.html (Home)
+posts_by_year = Post.all_by_year
+@posts_by_year = posts_by_year
+@post_prefix = ""
+index_content = index_template.result(binding)
+
+home_html = render_page(layout_template, "Rjort - Logs", "index", "/", "", "") { index_content }
+File.write(File.join(out_dir, "index.html"), home_html)
+puts " [✓] Exportado: / -> out/index.html"
+
+# 4. Gerar cada post em out/posts/:slug/index.html
+posts = Post.all
+posts.each do |post|
+  post_dir = File.join(out_dir, "posts", post.slug)
+  FileUtils.mkdir_p(post_dir)
+
+  @post = post
+  @root_path = "/"
+  show_content = show_template.result(binding)
+
+  post_html = render_page(layout_template, post.title, "show", "/", "", "") { show_content }
+  File.write(File.join(post_dir, "index.html"), post_html)
+  puts " [✓] Exportado: /posts/#{post.slug} -> out/posts/#{post.slug}/index.html"
+end
+
+elapsed = ((Time.now - start_time) * 1000).round(2)
+puts "🎉 Build concluído com sucesso em #{elapsed}ms! Arquivos prontos no diretório `out/`."

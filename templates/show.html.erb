@@ -1,0 +1,44 @@
+<div class="flex-1 flex flex-col md:flex-row gap-4 min-h-0 overflow-hidden">
+  <!-- Painel lateral TOC (index:) -->
+  <aside class="w-full md:w-64 border-b md:border-b-0 md:border-r border-gray-500 pr-0 md:pr-4 shrink-0 flex flex-col min-h-0 max-h-48 md:max-h-none overflow-y-auto">
+    <div class="mb-3 flex items-center justify-between">
+      <a href="<%= @root_path %>" class="inline-block bg-gray-300 text-black px-2 py-0.5 font-bold hover:bg-white transition-colors text-xs">
+        [&lt;-] Voltar
+      </a>
+    </div>
+
+    <div class="mb-2">
+      <div class="inline-block bg-gray-300 text-black px-2 py-0.5 font-bold text-xs">
+        index:
+      </div>
+    </div>
+
+    <nav class="space-y-1 text-sm overflow-y-auto pr-1">
+      <% if @post.table_of_contents.any? %>
+        <% @post.table_of_contents.each do |item| %>
+          <a href="#<%= item[:id] %>" class="nav-item block p-1 text-xs truncate hover:bg-gray-300 hover:text-black transition-colors">
+            # <%= item[:title] %>
+          </a>
+        <% end %>
+      <% else %>
+        <span class="text-xs text-gray-500 italic p-1 block">Nenhum tópico</span>
+      <% end %>
+    </nav>
+  </aside>
+
+  <!-- Leitor principal do post -->
+  <article class="flex-1 flex flex-col min-h-0 overflow-hidden">
+    <header class="border-b border-gray-700 pb-2 mb-4 shrink-0">
+      <div class="text-xs text-gray-500 mb-1">
+        Log: <%= @post.formatted_date %>
+      </div>
+      <h1 class="text-xl font-bold text-gray-200">
+        <%= @post.title %>
+      </h1>
+    </header>
+
+    <div class="flex-1 overflow-y-auto pr-2 prose prose-invert max-w-none space-y-4 text-sm text-gray-300">
+      <%= @post.content_html %>
+    </div>
+  </article>
+</div>

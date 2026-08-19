@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-black text-gray-300 font-mono select-none antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= @page_title ? "#{@page_title} - Rjort" : "Rjort" %></title>
+  <link rel="icon" href="<%= @asset_prefix %>/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="<%= @asset_prefix %>/assets/tailwind.css">
+  <style>
+    .active-nav-link {
+      background-color: #d1d5db !important;
+      color: #000000 !important;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col justify-between bg-black text-gray-300 font-mono p-2 sm:p-4 overflow-hidden" data-page-type="<%= @page_type %>" data-root-path="<%= @root_path %>">
+  <!-- Container principal estilo janela DOS/Terminal -->
+  <div class="flex-1 flex flex-col border border-gray-500 p-2 sm:p-4 overflow-hidden bg-black">
+    <!-- Cabeçalho estilo janela pic_view -->
+    <header class="flex justify-between items-center border-b border-gray-500 pb-2 mb-2 shrink-0">
+      <div class="flex items-center space-x-2">
+        <a href="<%= @root_path %>" class="text-xl font-bold tracking-wider hover:bg-gray-300 hover:text-black px-1 transition-colors">
+          [Rjort]
+        </a>
+      </div>
+      <div class="text-xs text-gray-400">
+        <%= Time.now.strftime("%Y-%m-%d") %>
+      </div>
+    </header>
+
+    <!-- Conteúdo principal dinâmico -->
+    <main class="flex-1 flex flex-col overflow-hidden min-h-0">
+      <%= yield %>
+    </main>
+  </div>
+
+  <!-- Rodapé padrão DOS -->
+  <footer class="mt-2 pt-1 border-t border-gray-500 text-xs text-center text-gray-400 shrink-0">
+    © 2026 Rjort. Todos os direitos reservados.
+  </footer>
+
+  <script src="<%= @asset_prefix %>/assets/terminal_nav.js"></script>
+</body>
+</html>

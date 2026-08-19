@@ -1,5 +1,10 @@
+require "date"
+require "commonmarker"
+require "front_matter_parser"
+require "nokogiri"
+
 class Post
-  POSTS_DIR = Rails.root.join("content", "posts")
+  POSTS_DIR = File.expand_path("../content/posts", __dir__)
 
   attr_reader :slug, :title, :date, :published, :summary, :raw_content
 
@@ -38,7 +43,7 @@ class Post
       doc.css("a.anchor").remove
       doc.css("h2, h3").map do |heading|
         text = heading.text.strip
-        heading_id = heading["id"] || text.parameterize
+        heading_id = heading["id"] || text.downcase.gsub(/[^a-z0-9]+/, "-").gsub(/^-|-$/, "")
         { title: text, id: heading_id }
       end
     end
@@ -48,7 +53,7 @@ class Post
     def all
       return [] unless Dir.exist?(POSTS_DIR)
 
-      Dir.glob(POSTS_DIR.join("*.md")).map do |file_path|
+      Dir.glob(File.join(POSTS_DIR, "*.md")).map do |file_path|
         from_file(file_path)
       end.select(&:published).sort_by(&:date).reverse
     end
@@ -67,7 +72,6 @@ class Post
       front_matter = parsed.front_matter
       filename = File.basename(file_path, ".md")
 
-      # Extrai slug removendo data do nome do arquivo se presente (ex: 2026-05-21-threads-em-ruby -> threads-em-ruby)
       extracted_slug = front_matter["slug"] || filename.sub(/\A\d{4}-\d{2}-\d{2}-/, "")
 
       new(

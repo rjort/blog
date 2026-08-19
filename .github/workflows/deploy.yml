@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - feat/2.0.0
 
 jobs:
   deploy:
@@ -22,7 +23,7 @@ jobs:
 
       - name: Exportar site estático
         run: |
-          bundle exec rails export:static
+          ruby bin/build
 
       - name: Deploy para Cloudflare Pages
         uses: cloudflare/pages-action@v1
