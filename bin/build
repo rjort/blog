@@ -29,12 +29,14 @@ index_template = ERB.new(File.read(File.join(templates_dir, "index.html.erb")))
 show_template = ERB.new(File.read(File.join(templates_dir, "show.html.erb")))
 
 # Helper para renderizar com o layout principal
-def render_page(layout_template, title, page_type, root_path, asset_prefix, post_prefix)
+def render_page(layout_template, title, page_type, root_path, asset_prefix, post_prefix, header_left = nil, header_right = nil)
   @page_title = title
   @page_type = page_type
   @root_path = root_path
   @asset_prefix = asset_prefix
   @post_prefix = post_prefix
+  @header_left = header_left
+  @header_right = header_right
   content = yield
   layout_template.result(binding)
 end
@@ -42,6 +44,7 @@ end
 # 3. Gerar out/index.html (Home)
 posts_by_year = Post.all_by_year
 @posts_by_year = posts_by_year
+@total_posts_count = Post.all.count
 @post_prefix = ""
 index_content = index_template.result(binding)
 
@@ -59,7 +62,10 @@ posts.each do |post|
   @root_path = "/"
   show_content = show_template.result(binding)
 
-  post_html = render_page(layout_template, post.title, "show", "/", "", "") { show_content }
+  header_left = "<span>Log: #{post.title}</span>"
+  header_right = %Q(<a href="/" class="hover:bg-gray-300 hover:text-black px-1" title="Voltar para Logs (ou pressione Backspace)">[&lt;-]</a>)
+
+  post_html = render_page(layout_template, "Log: #{post.title}", "show", "/", "", "", header_left, header_right) { show_content }
   File.write(File.join(post_dir, "index.html"), post_html)
   puts " [✓] Exportado: /posts/#{post.slug} -> out/posts/#{post.slug}/index.html"
 end
