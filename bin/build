@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'bundler/setup'
 require 'fileutils'
 require 'erb'
 require_relative '../lib/parse_markdown'

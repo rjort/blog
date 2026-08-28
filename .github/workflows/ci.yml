@@ -20,4 +20,4 @@ jobs:
           bundler-cache: true
 
       - name: Test static build
-        run: ruby bin/build
+        run: bundle exec ruby bin/build

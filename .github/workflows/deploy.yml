@@ -23,7 +23,7 @@ jobs:
 
       - name: Exportar site estático
         run: |
-          ruby bin/build
+          bundle exec ruby bin/build
 
       - name: Deploy para Cloudflare Pages
         uses: cloudflare/pages-action@v1
