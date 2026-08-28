@@ -1,10 +1,12 @@
 #!/usr/bin/env ruby
-root_dir = File.expand_path("..", __dir__)
+# frozen_string_literal: true
 
-puts "Start..."
+root_dir = File.expand_path('..', __dir__)
+
+puts 'Start...'
 system("ruby #{File.join(root_dir, 'bin', 'build')}") || exit(1)
 
-puts ""
-puts "http://localhost:3000"
-puts "Pressione Ctrl+C para encerrar."
+puts ''
+puts 'http://localhost:3000'
+puts 'Ctrl+C para encerrar.'
 exec("bundle exec ruby -run -e httpd #{File.join(root_dir, 'out')} -p 3000")

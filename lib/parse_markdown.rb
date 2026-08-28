@@ -1,20 +1,22 @@
-require "date"
-require "commonmarker"
-require "front_matter_parser"
-require "nokogiri"
+# frozen_string_literal: true
 
-class Post
-  POSTS_DIR = File.expand_path("../content/posts", __dir__)
+require 'date'
+require 'commonmarker'
+require 'front_matter_parser'
+require 'nokogiri'
+
+class ParseMarkdown 
+  POSTS_DIR = File.expand_path('../content/posts', __dir__)
 
   attr_reader :slug, :title, :date, :published, :summary, :raw_content
 
   def initialize(attributes = {})
     @slug = attributes[:slug]
-    @title = attributes[:title] || "Sem título"
+    @title = attributes[:title] || 'Sem título'
     @date = attributes[:date] ? Date.parse(attributes[:date].to_s) : Date.today
     @published = attributes.fetch(:published, true)
     @summary = attributes[:summary]
-    @raw_content = attributes[:raw_content] || ""
+    @raw_content = attributes[:raw_content] || ''
   end
 
   def year
@@ -30,7 +32,7 @@ class Post
       options = {
         render: {
           hardbreaks: true,
-          syntax_highlighter: "theme"
+          syntax_highlighter: 'theme'
         }
       }
       Commonmarker.to_html(raw_content, options: options)
@@ -40,10 +42,10 @@ class Post
   def table_of_contents
     @table_of_contents ||= begin
       doc = Nokogiri::HTML::DocumentFragment.parse(content_html)
-      doc.css("a.anchor").remove
-      doc.css("h2, h3").map do |heading|
+      doc.css('a.anchor').remove
+      doc.css('h2, h3').map do |heading|
         text = heading.text.strip
-        heading_id = heading["id"] || text.downcase.gsub(/[^a-z0-9]+/, "-").gsub(/^-|-$/, "")
+        heading_id = heading['id'] || text.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')
         { title: text, id: heading_id }
       end
     end
@@ -53,7 +55,7 @@ class Post
     def all
       return [] unless Dir.exist?(POSTS_DIR)
 
-      Dir.glob(File.join(POSTS_DIR, "*.md")).map do |file_path|
+      Dir.glob(File.join(POSTS_DIR, '*.md')).map do |file_path|
         from_file(file_path)
       end.select(&:published).sort_by(&:date).reverse
     end
@@ -67,19 +69,19 @@ class Post
     end
 
     def from_file(file_path)
-      loader = FrontMatterParser::Loader::Yaml.new(allowlist_classes: [ Date, Time ])
+      loader = FrontMatterParser::Loader::Yaml.new(allowlist_classes: [Date, Time])
       parsed = FrontMatterParser::Parser.new(:md, loader: loader).call(File.read(file_path))
       front_matter = parsed.front_matter
-      filename = File.basename(file_path, ".md")
+      filename = File.basename(file_path, '.md')
 
-      extracted_slug = front_matter["slug"] || filename.sub(/\A\d{4}-\d{2}-\d{2}-/, "")
+      extracted_slug = front_matter['slug'] || filename.sub(/\A\d{4}-\d{2}-\d{2}-/, '')
 
       new(
         slug: extracted_slug,
-        title: front_matter["title"],
-        date: front_matter["date"],
-        published: front_matter.fetch("published", true),
-        summary: front_matter["summary"],
+        title: front_matter['title'],
+        date: front_matter['date'],
+        published: front_matter.fetch('published', true),
+        summary: front_matter['summary'],
         raw_content: parsed.content
       )
     end
