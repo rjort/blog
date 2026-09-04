@@ -70,7 +70,7 @@ class ParseMarkdown
 
     def from_file(file_path)
       loader = FrontMatterParser::Loader::Yaml.new(allowlist_classes: [Date, Time])
-      parsed = FrontMatterParser::Parser.new(:md, loader: loader).call(File.read(file_path))
+      parsed = FrontMatterParser::Parser.new(:md, loader: loader).call(File.read(file_path, encoding: 'utf-8'))
       front_matter = parsed.front_matter
       filename = File.basename(file_path, '.md')
 
