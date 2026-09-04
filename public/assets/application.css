@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #000000;
+    color: #d1d5db;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  ::selection {
+    background-color: #d1d5db;
+    color: #000000;
+  }
+}
+
+/* Custom Retro Terminal Markdown Styling (pic_view aesthetic) */
+.markdown-body {
+  color: #d1d5db;
+  line-height: 1.6;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.markdown-body h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #4b5563;
+  padding-bottom: 0.25rem;
+}
+
+.markdown-body h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f3f4f6;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  scroll-margin-top: 2rem;
+}
+
+.markdown-body h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #9ca3af;
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+  scroll-margin-top: 2rem;
+}
+
+.markdown-body p {
+  margin-bottom: 0.85rem;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.markdown-body ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.markdown-body li {
+  margin-bottom: 0.2rem;
+}
+
+.markdown-body code {
+  background-color: #111827;
+  color: #fbbf24;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid #4b5563;
+  font-size: 0.9em;
+}
+
+/* Blocos de Código Retro Terminal (```) */
+.markdown-body pre {
+  background-color: #000000 !important;
+  border: 1px solid #4b5563 !important;
+  padding: 0.85rem !important;
+  overflow-x: auto;
+  margin-top: 0.85rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0px !important;
+}
+
+.markdown-body pre code {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: #d1d5db !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Destaque de Sintaxe Retro (Palavras-chave em Âmbar, Strings em Verde Matriz, Funções em Ciano) */
+.markdown-body pre code span[style*="color:#b48ead"],
+.markdown-body pre code span[style*="color:#B48EAD"] {
+  color: #fbbf24 !important; /* Keywords: def, end, do, if -> Amber Yellow */
+  font-weight: bold;
+}
+
+.markdown-body pre code span[style*="color:#a3be8c"],
+.markdown-body pre code span[style*="color:#A3BE8C"] {
+  color: #4ade80 !important; /* Strings: "application/json" -> Phosphor Matrix Green */
+}
+
+.markdown-body pre code span[style*="color:#8fa1b3"],
+.markdown-body pre code span[style*="color:#8FA1B3"],
+.markdown-body pre code span[style*="color:#96b5b4"] {
+  color: #38bdf8 !important; /* Functions: headers, new, puts -> Bright Cyan */
+}
+
+.markdown-body pre code span[style*="color:#ebcb8b"],
+.markdown-body pre code span[style*="color:#EBCB8B"] {
+  color: #ffffff !important; /* Classes/Constants: GraphQL, HTTP, Client -> Pure White */
+  font-weight: bold;
+}
+
+.markdown-body pre code span[style*="color:#bf616a"],
+.markdown-body pre code span[style*="color:#BF616A"] {
+  color: #e5e7eb !important; /* Variables/Parameters: URL, context -> Soft Gray */
+}
+
+.markdown-body pre code span[style*="color:#d08770"] {
+  color: #f43f5e !important; /* Numbers/Symbols -> Bright Magenta/Rose */
+}
+
+.markdown-body pre code span[style*="color:#65737e"] {
+  color: #6b7280 !important; /* Comments: # ... -> Slate Gray */
+  font-style: italic;
+}
+
+.markdown-body a {
+  color: #e5e7eb;
+  text-decoration: underline;
+}
+
+.markdown-body a:hover,
+.markdown-body a.active-nav-link,
+.active-nav-link {
+  background-color: #d1d5db !important;
+  color: #000000 !important;
+  text-decoration: none !important;
+}
+
+.markdown-body a:hover *,
+.markdown-body a.active-nav-link *,
+.active-nav-link * {
+  color: #000000 !important;
+}
+
+.markdown-body blockquote {
+  border-left: 2px solid #6b7280;
+  padding-left: 0.75rem;
+  color: #9ca3af;
+  margin-bottom: 0.85rem;
+}

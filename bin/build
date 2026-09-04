@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'fileutils'
+require 'erb'
+require_relative '../lib/parse_markdown'
+
+root_dir = File.expand_path('..', __dir__)
+out_dir = File.join(root_dir, 'out')
+templates_dir = File.join(root_dir, 'templates')
+public_dir = File.join(root_dir, 'public')
+
+puts 'Iniciando build'
+start_time = Time.now
+
+FileUtils.rm_rf(out_dir)
+FileUtils.mkdir_p(out_dir)
+
+# 1. Copiar arquivos estáticos de public/ para out/
+FileUtils.cp_r(File.join(public_dir, '.'), out_dir)
+
+# 2. Compilar Tailwind CSS
+puts 'Compilando o tailwindcss'
+FileUtils.mkdir_p(File.join(out_dir, 'assets'))
+system("bundle exec tailwindcss -i #{File.join(public_dir, 'assets',
+                                               'application.css')} -o #{File.join(out_dir, 'assets',
+                                                                                  'tailwind.css')} --minify")
+
+# Carregar templates ERB
+layout_template = ERB.new(File.read(File.join(templates_dir, 'layout.html.erb')))
+index_template = ERB.new(File.read(File.join(templates_dir, 'index.html.erb')))
+show_template = ERB.new(File.read(File.join(templates_dir, 'show.html.erb')))
+
+# Helper para renderizar com o layout principal
+def render_page(layout_template, title, page_type, root_path, asset_prefix, post_prefix, header_left = nil,
+                header_right = nil)
+  @page_title = title
+  @page_type = page_type
+  @root_path = root_path
+  @asset_prefix = asset_prefix
+  @post_prefix = post_prefix
+  @header_left = header_left
+  @header_right = header_right
+  content = yield
+  layout_template.result(binding)
+end
+
+posts_by_year = ParseMarkdown.all_by_year
+@posts_by_year = posts_by_year
+@total_posts_count = ParseMarkdown.all.count
+@post_prefix = ''
+index_content = index_template.result(binding)
+
+home_html = render_page(layout_template, 'Rjort - Logs', 'index', '/', '', '') { index_content }
+File.write(File.join(out_dir, 'index.html'), home_html)
+puts 'Exportado: / -> out/index.html'
+
+posts = ParseMarkdown.all
+posts.each do |post|
+  post_dir = File.join(out_dir, 'posts', post.slug)
+  FileUtils.mkdir_p(post_dir)
+
+  @post = post
+  @root_path = '/'
+  show_content = show_template.result(binding)
+
+  header_left = "<span>Log: #{post.title}</span>"
+  header_right = %(<a href="/" class="hover:bg-gray-300 hover:text-black px-1" title="Voltar para Logs (ou pressione Backspace)">[&lt;-]</a>)
+
+  post_html = render_page(layout_template, "Log: #{post.title}", 'show', '/', '', '', header_left, header_right) do
+    show_content
+  end
+  File.write(File.join(post_dir, 'index.html'), post_html)
+  puts "Exportado: /posts/#{post.slug} -> out/posts/#{post.slug}/index.html"
+end
+
+elapsed = ((Time.now - start_time) * 1000).round(2)
+puts "Build concluído: #{elapsed}ms!"

@@ -1,16 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env ruby
+# frozen_string_literal: true
 
-if ! gem list foreman -i --silent; then
-  echo "Installing foreman..."
-  gem install foreman
-fi
+root_dir = File.expand_path('..', __dir__)
 
-# Default to port 3000 if not specified
-export PORT="${PORT:-3000}"
+puts 'Start...'
+system("ruby #{File.join(root_dir, 'bin', 'build')}") || exit(1)
 
-# Let the debug gem allow remote connections,
-# but avoid loading until `debugger` is called
-export RUBY_DEBUG_OPEN="true"
-export RUBY_DEBUG_LAZY="true"
-
-exec foreman start -f Procfile.dev "$@"
+puts ''
+puts 'http://localhost:3000'
+puts 'Ctrl+C para encerrar.'
+exec("bundle exec ruby -run -e httpd #{File.join(root_dir, 'out')} -p 3000")
