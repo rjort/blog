@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= @page_title ? "#{@page_title} - Rjort" : "Rjort" %></title>
   <link rel="icon" href="<%= @asset_prefix %>/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="<%= @asset_prefix %>/assets/tailwind.css">
+  <link rel="stylesheet" href="<%= @asset_prefix %>/assets/tailwind.css?v=<%= @asset_version %>">
 </head>
 <body class="bg-black text-gray-300 font-mono h-screen flex flex-col p-4 antialiased selection:bg-gray-300 selection:text-black overflow-hidden" data-page-type="<%= @page_type %>" data-root-path="<%= @root_path %>">
 
@@ -33,6 +33,6 @@
     © 2026 Rjort. Todos os direitos reservados.
   </footer>
 
-  <script src="<%= @asset_prefix %>/assets/terminal_nav.js"></script>
+  <script src="<%= @asset_prefix %>/assets/terminal_nav.js?v=<%= @asset_version %>"></script>
 </body>
 </html>

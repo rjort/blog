@@ -15,6 +15,20 @@
   }
 }
 
+/* Layout Responsivo das Colunas da Postagem */
+@media (min-width: 768px) {
+  .post-index-col {
+    width: 22% !important;
+    max-width: 22% !important;
+    flex-shrink: 0 !important;
+  }
+  .post-content-col {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    width: auto !important;
+  }
+}
+
 /* Custom Retro Terminal Markdown Styling (pic_view aesthetic) */
 .markdown-body {
   color: #d1d5db;

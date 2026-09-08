@@ -1,7 +1,7 @@
 <div class="flex flex-col md:flex-row w-full flex-grow gap-4 overflow-hidden min-h-0">
 
   <!-- Coluna Esquerda: index: (Sumário de títulos) -->
-  <div class="w-full md:w-[22%] border border-gray-500 flex flex-col bg-black overflow-hidden shrink-0 max-h-48 md:max-h-none">
+  <div class="w-full post-index-col md:w-[22%] border border-gray-500 flex flex-col bg-black overflow-hidden shrink-0 max-h-48 md:max-h-none">
     <div class="bg-gray-300 text-black px-2 font-bold flex justify-between shrink-0">
       <span>index:</span>
       <span>[<%= @post.table_of_contents.count %>]</span>
@@ -22,7 +22,7 @@
   </div>
 
   <!-- Coluna Direita: Log: <titulo> (Conteúdo do Markdown com rolagem própria) -->
-  <div class="w-full md:w-[78%] border border-gray-500 flex flex-col bg-black flex-grow overflow-hidden min-h-0">
+  <div class="w-full post-content-col md:flex-1 md:w-auto border border-gray-500 flex flex-col bg-black flex-grow overflow-hidden min-h-0">
     <div class="bg-gray-300 text-black px-2 font-bold flex justify-between shrink-0">
       <span class="truncate">Log: <%= @post.title %></span>
       <span>[<%= @post.formatted_date %>]</span>

@@ -36,6 +36,8 @@ layout_template = ERB.new(File.read(File.join(templates_dir, 'layout.html.erb'),
 index_template = ERB.new(File.read(File.join(templates_dir, 'index.html.erb'), encoding: 'utf-8'))
 show_template = ERB.new(File.read(File.join(templates_dir, 'show.html.erb'), encoding: 'utf-8'))
 
+@asset_version = start_time.to_i
+
 # Helper para renderizar com o layout principal
 def render_page(layout_template, title, page_type, root_path, asset_prefix, post_prefix, header_left = nil,
                 header_right = nil)
@@ -46,6 +48,7 @@ def render_page(layout_template, title, page_type, root_path, asset_prefix, post
   @post_prefix = post_prefix
   @header_left = header_left
   @header_right = header_right
+  @asset_version = @asset_version
   content = yield
   layout_template.result(binding)
 end
