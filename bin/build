@@ -69,8 +69,8 @@ posts.each do |post|
   @root_path = '/'
   show_content = show_template.result(binding)
 
-  header_left = "<span>Log: #{post.title}</span>"
-  header_right = %(<a href="/" class="hover:bg-gray-300 hover:text-black px-1" title="Voltar para Logs (ou pressione Backspace)">[&lt;-]</a>)
+  header_left = "<span class=\"truncate\">Log: #{post.title}</span>"
+  header_right = %(<div class="flex items-center space-x-1"><button id="btn-zoom-out" class="hover:bg-gray-300 hover:text-black px-1 cursor-pointer select-none" title="Zoom out [-]">[-]</button><button id="btn-zoom-in" class="hover:bg-gray-300 hover:text-black px-1 cursor-pointer select-none" title="Zoom in [+]">[+]</button><a href="/" class="hover:bg-gray-300 hover:text-black px-1 select-none" title="Voltar para Logs (ou pressione Backspace)">[&lt;-]</a></div>)
 
   post_html = render_page(layout_template, "Log: #{post.title}", 'show', '/', '', '', header_left, header_right) do
     show_content

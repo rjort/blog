@@ -10,15 +10,15 @@
 <body class="bg-black text-gray-300 font-mono h-screen flex flex-col p-4 antialiased selection:bg-gray-300 selection:text-black overflow-hidden" data-page-type="<%= @page_type %>" data-root-path="<%= @root_path %>">
 
   <!-- Header retro -->
-  <header class="flex justify-between items-center mb-4 border border-gray-500 p-2 bg-gray-900 shrink-0">
-    <div class="font-bold">
+  <header class="flex justify-between items-center mb-4 border border-gray-500 p-2 bg-gray-900 shrink-0 gap-2">
+    <div class="font-bold truncate min-w-0">
       <% if @header_left %>
         <%= @header_left %>
       <% else %>
         <a href="<%= @root_path %>" class="hover:bg-gray-300 hover:text-black px-1">[Rjort]</a>
       <% end %>
     </div>
-    <div class="font-bold">
+    <div class="font-bold shrink-0">
       <%= @header_right %>
     </div>
   </header>

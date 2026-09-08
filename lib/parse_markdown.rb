@@ -4,8 +4,43 @@ require 'date'
 require 'commonmarker'
 require 'front_matter_parser'
 require 'nokogiri'
+require 'rouge'
 
 class ParseMarkdown 
+  class RetroTheme < Rouge::Themes::Base16
+    name 'retro_terminal'
+
+    palette base00: '#000000'
+    palette base01: '#111827'
+    palette base02: '#374151'
+    palette base03: '#6b7280' # Comments: Slate Gray
+    palette base04: '#9ca3af'
+    palette base05: '#d1d5db' # Text: Soft Gray
+    palette base06: '#e5e7eb'
+    palette base07: '#ffffff' # Pure White
+    palette base08: '#f43f5e' # Numbers / Symbols: Bright Magenta/Rose
+    palette base09: '#f43f5e'
+    palette base0A: '#ffffff' # Classes / Constants: Pure White
+    palette base0B: '#4ade80' # Strings: Phosphor Matrix Green
+    palette base0C: '#38bdf8' # Functions / Regex: Bright Cyan
+    palette base0D: '#38bdf8'
+    palette base0E: '#fbbf24' # Keywords: Amber Yellow
+    palette base0F: '#ab7967'
+
+    style Text, fg: :base05
+    style Keyword, fg: :base0E, bold: true
+    style Keyword::Declaration, fg: :base0E, bold: true
+    style Keyword::Type, fg: :base0E, bold: true
+    style Keyword::Constant, fg: :base0E, bold: true
+    style Name::Function, Name::Builtin, Name::Builtin::Pseudo, fg: :base0D
+    style Name::Class, Name::Constant, Name::Namespace, fg: :base0A, bold: true
+    style Literal::String, fg: :base0B
+    style Literal::Number, fg: :base08
+    style Comment, fg: :base03, italic: true
+    style Operator, fg: :base08
+  end
+
+  ROUGE_FORMATTER = Rouge::Formatters::HTMLInline.new(RetroTheme.new)
   POSTS_DIR = File.expand_path('../content/posts', __dir__)
 
   attr_reader :slug, :title, :date, :published, :summary, :raw_content
@@ -31,11 +66,14 @@ class ParseMarkdown
     @content_html ||= begin
       options = {
         render: {
-          hardbreaks: true,
-          syntax_highlighter: 'theme'
+          hardbreaks: true
         }
       }
-      Commonmarker.to_html(raw_content, options: options)
+      plugins = {
+        syntax_highlighter: nil
+      }
+      html = Commonmarker.to_html(raw_content, options: options, plugins: plugins)
+      highlight_code_blocks(html)
     end
   end
 
@@ -49,6 +87,26 @@ class ParseMarkdown
         { title: text, id: heading_id }
       end
     end
+  end
+
+  private
+
+  def highlight_code_blocks(html)
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
+    doc.css('pre').each do |pre|
+      code_node = pre.at_css('code')
+      next unless code_node
+
+      raw_code = code_node.text
+      lang = (pre['lang'] || '').strip
+      if lang.empty? && code_node['class'] =~ /language-([^\s]+)/
+        lang = Regexp.last_match(1)
+      end
+
+      lexer = Rouge::Lexer.find_fancy(lang, raw_code) || Rouge::Lexers::PlainText.new
+      code_node.inner_html = ROUGE_FORMATTER.format(lexer.lex(raw_code))
+    end
+    doc.to_html
   end
 
   class << self

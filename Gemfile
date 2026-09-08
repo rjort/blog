@@ -14,3 +14,5 @@ gem 'tailwindcss-ruby', '~> 4.3'
 
 # Servidor HTTP local
 gem 'webrick', '~> 1.8'
+
+gem "rouge", "~> 5.1"
